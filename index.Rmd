@@ -72,4 +72,4 @@ div(
 )  
 ```
 
-> Birth type refers to whether the animal was captive-born (CB), wild-born (WB), and unknown birth (UNK). Data used for this widget is a random sample of 1000, [the full data can be accessed here.](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-24/readme.md)
+> Birth type refers to whether the animal was captive-born (CB), wild-born (WB), and unknown birth (UNK). Data used for this widget is a random sample of 2000 Lemurs, [the full data can be accessed here.](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-24/readme.md)
