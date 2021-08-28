@@ -11,12 +11,15 @@ pacman::p_load(tidyverse, reactable,plotly,crosstalk,htmltools)
 ```
 
 ```{r, echo=FALSE}
-set.seed(123)
+set.seed(12345)
 
 small_df <- lemurs %>% 
-  select(weight_g,age_at_wt_y, birth_type) %>% 
-  sample_n(1000) %>% 
-  na.omit()
+  select(weight_g,age_at_wt_y, birth_type,sex) %>% 
+  na.omit() %>% 
+  filter(birth_type %in% sample(unique(birth_type)) & sex %in% sample(unique(sex))) %>% 
+  sample_n(2000)
+
+small_df <- small_df %>% mutate_if(is.character, as.factor)
 
 pen_df <- SharedData$new(small_df)
 
@@ -45,19 +48,21 @@ reactable_table <-  reactable(
   columns = list(
     birth_type = colDef("Birth Type"),
     weight_g = colDef("Weight"),
-    age_at_wt_y = colDef("Age"))
+    age_at_wt_y = colDef("Age"),
+    sex = colDef("Sex"))
   )
 
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 div(
-  h3("Filter by: Birth Type or Weight"),
+  h3("Filter by: Birth Type, Sex or Weight"),
   br(),
   bscols(
     widths = c(2, 10),
     list(
       filter_checkbox("birth_type", "Birth Type", pen_df, ~birth_type),
+      filter_checkbox("sex", "Sex", pen_df, ~sex),
       filter_slider("weight_g", "Weight (g)", pen_df, ~weight_g)
     ),
     plotly_graphic,
@@ -67,4 +72,4 @@ div(
 )  
 ```
 
-> Birth type refers to whether the animal was captive-born (CB), wild-born (WB) or of unknown birth type (UNK). Data is from [Tidy Tuesday week 35.](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-24/readme.md)
+> Birth type refers to whether the animal was captive-born (CB), wild-born (WB), and unknown birth (UNK). Data used for this widget is a random sample of 1000, [the full data can be accessed here.](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-24/readme.md)
